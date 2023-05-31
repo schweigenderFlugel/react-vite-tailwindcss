@@ -1,8 +1,12 @@
+import Layout from "../../Components/Layout"
+import Card from "../../Components/Card"
+
 function Home() {
     return (
-        <div className="bg-sky-500">
-         Home
-        </div>
+        <Layout>
+            Home
+            <Card/>
+        </Layout>
     )
   }
   

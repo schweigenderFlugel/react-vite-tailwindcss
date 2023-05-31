@@ -1,8 +1,10 @@
+import Layout from "../../Components/Layout"
+
 function SignIn() {
     return (
-        <div className="bg-sky-500">
-          SignIn
-        </div>
+      <Layout>
+        Sign In
+      </Layout>
     )
   }
   

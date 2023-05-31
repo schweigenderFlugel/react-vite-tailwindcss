@@ -1,8 +1,8 @@
+import Layout from "../../Components/Layout"
+
 function NotFound() {
     return (
-        <div className="bg-sky-500">
-          NotFound
-        </div>
+      <Layout>Not Found</Layout>
     )
   }
   
