@@ -10,10 +10,17 @@ export function ShoppingCartProvider ({ children }) {
     const openProductDetail = () => setIsProductDetailsOpen(true)
     const closeProductDetail = () => setIsProductDetailsOpen(false)
 
+    // Chekout SideMenu - Open/Close
+    const [ isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen ] = React.useState(false);
+    const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
+    const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
+
     // Product Details - Show 
     const [ productToShow, setProductToShow  ] = React.useState({});
 
-    console.log('COUNT: ', count)
+    // Shopping Cart - Add Products To Cart
+    const [ cartProducts, setCartProducts  ] = React.useState([]);
+
     return (
     <ShoppingCartContext.Provider value={{
         count,
@@ -22,7 +29,13 @@ export function ShoppingCartProvider ({ children }) {
         closeProductDetail,
         isProductDetailsOpen,
         productToShow,
-        setProductToShow
+        setProductToShow,
+        cartProducts,
+        setCartProducts,
+        isCheckoutSideMenuOpen, 
+        setIsCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu
     }}>
         {children}
     </ShoppingCartContext.Provider>
