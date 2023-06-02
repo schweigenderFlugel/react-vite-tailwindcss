@@ -24,6 +24,20 @@ export function ShoppingCartProvider ({ children }) {
     // Shopping Cart - Add Products To Cart
     const [ order, setOrder ] = React.useState([]);
 
+    // Get Products
+    const [ items, setItems ] = React.useState(null);
+
+    // Get Product By Title 
+    const [ searchByTitle, setSearchByTitle ] = React.useState(null);
+    console.log('searchByTitle: ', searchByTitle )
+
+    React.useEffect(() => {
+        // Con fetch estamos diciendo que el Home necesita de la infomación de la API. 
+        fetch('https://api.escuelajs.co/api/v1/products')
+          .then(response => response.json())
+          .then(data => setItems(data))
+      }, [])
+
     return (
     <ShoppingCartContext.Provider value={{
         count,
@@ -40,7 +54,11 @@ export function ShoppingCartProvider ({ children }) {
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
         order,
-        setOrder
+        setOrder,
+        items, 
+        setItems,
+        searchByTitle,
+        setSearchByTitle
     }}>
         {children}
     </ShoppingCartContext.Provider>
