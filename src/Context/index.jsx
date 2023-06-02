@@ -21,6 +21,9 @@ export function ShoppingCartProvider ({ children }) {
     // Shopping Cart - Add Products To Cart
     const [ cartProducts, setCartProducts  ] = React.useState([]);
 
+    // Shopping Cart - Add Products To Cart
+    const [ order, setOrder ] = React.useState([]);
+
     return (
     <ShoppingCartContext.Provider value={{
         count,
@@ -35,7 +38,9 @@ export function ShoppingCartProvider ({ children }) {
         isCheckoutSideMenuOpen, 
         setIsCheckoutSideMenuOpen,
         openCheckoutSideMenu,
-        closeCheckoutSideMenu
+        closeCheckoutSideMenu,
+        order,
+        setOrder
     }}>
         {children}
     </ShoppingCartContext.Provider>
