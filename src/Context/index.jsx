@@ -26,10 +26,27 @@ export function ShoppingCartProvider ({ children }) {
 
     // Get Products
     const [ items, setItems ] = React.useState(null);
+    const [ filteredItems, setFilteredItems ] = React.useState(null);
 
-    // Get Product By Title 
+    // Get Product By Title or Catgeory
     const [ searchByTitle, setSearchByTitle ] = React.useState(null);
-    console.log('searchByTitle: ', searchByTitle )
+    const [ searchByCategory, setSearchByCategory ] = React.useState(null);
+
+    const filteredItemsByTitle = (items, searchByTitle) => {
+        return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
+
+    const filteredItemsByCategory = (items, searchByCategory) => {
+        return items?.filter(item => item.category.name.toLowerCase().includes(searchByCategory.toLowerCase()))
+      }
+
+    const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
+        if (searchType === 'BY_TITLE') return filteredItemsByTitle(items, searchByTitle)
+        if (searchType === 'BY_CATEGORY') return filteredItemsByCategory(items, searchByCategory)
+        if (searchType === 'BY_TITLE_AND_CATEGORY') return filteredItemsByCategory(items, searchByCategory)
+            .filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+        if (!searchType) return items;
+    }
 
     React.useEffect(() => {
         // Con fetch estamos diciendo que el Home necesita de la infomación de la API. 
@@ -37,6 +54,17 @@ export function ShoppingCartProvider ({ children }) {
           .then(response => response.json())
           .then(data => setItems(data))
       }, [])
+
+    React.useEffect(() => {
+        if (searchByTitle && !searchByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, searchByCategory))
+        if (!searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, searchByCategory))
+        if (searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY_AND_CATEGORY', items, searchByTitle, searchByCategory))
+        if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
+      }, [items, searchByTitle, searchByCategory])
+
+    console.log('filteredItems: ', filteredItems);
+
+    
 
     return (
     <ShoppingCartContext.Provider value={{
@@ -58,7 +86,10 @@ export function ShoppingCartProvider ({ children }) {
         items, 
         setItems,
         searchByTitle,
-        setSearchByTitle
+        setSearchByTitle,
+        filteredItems,
+        searchByCategory,
+        setSearchByCategory
     }}>
         {children}
     </ShoppingCartContext.Provider>
