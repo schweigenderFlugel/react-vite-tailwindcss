@@ -24,6 +24,9 @@ export function ShoppingCartProvider ({ children }) {
     // Shopping Cart - Add Products To Cart
     const [ order, setOrder ] = React.useState([]);
 
+
+
+    // 1 Establecemos los estados con React. Van a tener valor nulo. 
     // Get Products
     const [ items, setItems ] = React.useState(null);
     const [ filteredItems, setFilteredItems ] = React.useState(null);
@@ -32,6 +35,8 @@ export function ShoppingCartProvider ({ children }) {
     const [ searchByTitle, setSearchByTitle ] = React.useState(null);
     const [ searchByCategory, setSearchByCategory ] = React.useState(null);
 
+
+    // 4 Estas funciones van a filtras los items 
     const filteredItemsByTitle = (items, searchByTitle) => {
         return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
     }
@@ -40,6 +45,18 @@ export function ShoppingCartProvider ({ children }) {
         return items?.filter(item => item.category.name.toLowerCase().includes(searchByCategory.toLowerCase()))
       }
 
+    // 2 Este useEffect va a filtrar los productos y a su vez va a llamar a una función para filtrarlos por
+    // tipo, ya sea categoría o título con sus argumentos. Importante: no olvidar pasar las dependencias
+    // al final del UseEffect, que son los estados actuales
+    React.useEffect(() => {
+        if (searchByTitle && !searchByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, searchByCategory))
+        if (!searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, searchByCategory))
+        if (searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_TITLE_AND_CATEGORY', items, searchByTitle, searchByCategory))
+        if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
+    }, [items, searchByTitle, searchByCategory])
+
+    // La función filterBy va a recibir estos parámetros y va a preguntar que tipo de búsqueda hacemos.
+    // Dependendiendo de la condición que se cumpla, va a retornar una función. 
     const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
         if (searchType === 'BY_TITLE') return filteredItemsByTitle(items, searchByTitle)
         if (searchType === 'BY_CATEGORY') return filteredItemsByCategory(items, searchByCategory)
@@ -54,13 +71,6 @@ export function ShoppingCartProvider ({ children }) {
           .then(response => response.json())
           .then(data => setItems(data))
       }, [])
-
-    React.useEffect(() => {
-        if (searchByTitle && !searchByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, searchByCategory))
-        if (!searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, searchByCategory))
-        if (searchByTitle && searchByCategory) setFilteredItems(filterBy('BY_CATEGORY_AND_CATEGORY', items, searchByTitle, searchByCategory))
-        if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
-      }, [items, searchByTitle, searchByCategory])
 
     console.log('filteredItems: ', filteredItems);
 
