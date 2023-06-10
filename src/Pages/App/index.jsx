@@ -11,7 +11,6 @@ import LoginButton from "../../Components/LoginButton";
 import Navbar from "../../Components/Navbar";
 import CheckoutSideMenu from "../../Components/CheckoutSideMenu";
 import "./App.css";
-import LogoutButton from "../../Components/LogoutButton";
 
 const AppRoutes = () => {
   // En estas rutas tomamos el endpoint y el componente que va a ser renderizado
@@ -41,7 +40,6 @@ const App = () => {
         <AppRoutes />
         <Navbar/>
         <CheckoutSideMenu />
-        <LogoutButton />
       </BrowserRouter>
     </ShoppingCartProvider>
   );

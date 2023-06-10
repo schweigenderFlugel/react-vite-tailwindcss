@@ -41,11 +41,23 @@ const Navbar = () => {
     <p>{user.email}</p>
       )}
   }
+
+  const myOrders = () => {
+    if (isAuthenticated) {
+      return (
+        <NavLink
+        to="/my-orders"
+        className={({ isActive }) => (isActive ? activeStyle : undefined)}
+      >
+        My Orders
+      </NavLink>
+      )}
+  }
   
 
   return (
-    <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light">
-      <ul className="flex items-center gap-3">
+    <nav className=" sm:table lg:flex lg:justify-between lg:items-center lg:fixed lg:z-10 lg:top-0 lg:w-full lg:py-5 lg:px-8 lg:text-sm lg:font-light">
+      <ul className="sm:table-row lg:flex lg:items-center gap-3">
         <li className="font-semibold text-lg">
           <NavLink
             to="/"
@@ -109,7 +121,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       </ul>
-      <ul className="flex items-center gap-3">
+      <ul className="lg:flex lg:items-center lg:gap-3">
         <li>
           <NavLink
             to="/"
@@ -119,12 +131,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/my-orders"
-            className={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            My Orders
-          </NavLink>
+          {myOrders()}
         </li>
         <li>
           {myAccount()}

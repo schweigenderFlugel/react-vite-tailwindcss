@@ -13,6 +13,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
+      //useRefreshTokens={true}
+      //useRefreshTokensFallback={false}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}
